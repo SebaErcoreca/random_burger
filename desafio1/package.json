@@ -1,0 +1,16 @@
+{
+    "name": "product-manager",
+    "version": "1.0.0",
+    "main": "desafio1",
+    "directories": {
+      "test": "tests"
+    },
+    "scripts": {
+      "test": "jest"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {},
+    "description": ""
+  }
