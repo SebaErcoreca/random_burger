@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "App.js",
+  "type": "module",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SebaErcoreca/random_burgers.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SebaErcoreca/random_burgers/issues"
+  },
+  "homepage": "https://github.com/SebaErcoreca/random_burgers#readme",
+  "dependencies": {
+    "eslint": "^8.28.0"
+  }
+}
