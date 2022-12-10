@@ -13,27 +13,33 @@ export default class ProductManager {
         this.#init();
     }
 
-    /**
-     *Add a product to the product collection checking for no repeated code parameter. 
-     *If added successfully, the product is assigned an id.
-     */
-    addProduct = (product) => {
-        if (!this.#products.some(p => p.code === product.code)) {
+    /* Returns the amount of products in the ProductManager instance. */
+    get count(){
+        return this.#products.length;
+    }
 
-            product.id = ProductManager.#getNewProductId();
-
-            this.#products.push(product);
-
-            this.#persist();
-
-            return product.id;
-        }
-
-        throw new Error(`${product.code} already exists.`);
+    /* Returns the nextProductId */
+    get nextProductId(){
+        return ProductManager.getLastProductId + 1;
     }
 
     /**
-     * Updates a product identified by it's id checking for the products existence in the ProductManager instance.  
+     *Add a product to the product collection checking for no repeated code parameter. 
+     *If added successfully, the newProduct is assigned an id.
+     */
+    addProduct = (newProduct) => {
+        if(!this.#products.some(product => product.code === newProduct.code)) {
+          newProduct.id = ProductManager.#getNewProductId();
+          this.#products.push(newProduct);
+          this.#persist();
+          return newProduct.id;
+        }
+        throw new Error(`${newProduct.code} already exists.`);
+      }
+
+    /**
+     * Updates a product identified by it's id checking 
+     * for the products existence in the ProductManager instance.  
      */
     updateProduct = (productId, updatedProduct) => {
         const productIndex = this.#products.findIndex(product => product.id === productId);
@@ -83,6 +89,16 @@ export default class ProductManager {
         } else {
             throw new Error(`Couldn't delete the product. Product with id ${productId} was not found.`);
         }
+    }
+
+    /* 
+    Erases all products in the instance and 
+    restarts the lastProductsId = 0
+    */
+    resetProductsId = () => {
+        this.#products = [];
+        ProductManager.#lastProductId = 0;
+        this.#persist();
     }
 
     /* Returns the product collection */
@@ -136,7 +152,7 @@ export default class ProductManager {
                     product.price,
                     product.thumbnail,
                     product.code,
-                    product.code
+                    product.stock
                 );
 
                 managedProduct.id = product.id;

@@ -9,7 +9,7 @@ export default class Product {
      */
     constructor(title, description, price, thumbnail, code, stock) {
 
-        console.log('Please provide the values of:');
+        /* console.log('Please provide the values of:'); */
 
         if ((title ?? 'empty') === 'empty') {
             throw new Error('Title:');
