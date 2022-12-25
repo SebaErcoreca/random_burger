@@ -2,7 +2,7 @@ import { Router } from "express";
 import Product from "../Product.js";
 import ProductManager from "../ProductManager.js";
 
-const productsPath = "public/products.json";
+const productsPath = ".src/public/products.json";
 
 const ProductsRouter = Router();
 
@@ -83,7 +83,7 @@ ProductsRouter.get("/", (req, res) => {
 Creates a new product and saves it ProductManager.json
  */
 ProductsRouter.post("/", (req, res) => {
-  const requestedProducts = {};
+  /* const requestedProducts = {};
   let returnStatus = 201;
 
   const {
@@ -129,7 +129,20 @@ ProductsRouter.post("/", (req, res) => {
       requestedProducts.message = err.message;
     }
   }
-  res.status(returnStatus).json(requestedProducts).end();
+  res.status(returnStatus).json(requestedProducts).end(); */
+
+  try {
+    const { title, description, price, thumbnail, stock, code, category, status } = req.body;
+    const product = new Product(title, description, price, thumbnail, stock, code, category, status);
+    ProductManager.addProduct(product);
+
+    const productsList = ProductManager.getProducts();
+    req.io.emit('listChange', productsList);
+
+    res.status(201).json(product);
+  } catch (error) {
+    res.status(501).json({ error: error.message });
+  }
 });
 
 /* 
@@ -137,7 +150,7 @@ Given the product id the values of the product in
 ProductManager.json are updated
 */
 ProductsRouter.put("/:pid", (req, res) => {
-  const requestedProducts = {};
+  /* const requestedProducts = {};
   let returnStatus = 200;
 
   const { pid } = req.params;
@@ -195,7 +208,22 @@ ProductsRouter.put("/:pid", (req, res) => {
       requestedProducts.message = `Product ${pid} wasn't found.`;
     }
   }
-  res.status(returnStatus).json(requestedProducts).end();
+  res.status(returnStatus).json(requestedProducts).end(); */
+
+  try {
+    const { pid } = req.params;
+    const { title, description, price, thumbnail, stock, code, category, status } = req.body;
+    const product = new Product(title, description, price, thumbnail, stock, code, category, status);
+    ProductManager.updateProductById(Number(pid), product);
+    console.log(req)
+
+    const productsList = ProductManager.getProducts();
+    req.io.emit('listChange', productsList);
+
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(501).json({ error: error.message });
+  }
 });
 
 /* 
@@ -203,7 +231,7 @@ Given the products id the product in ProductManager.json
 is deleted.
 */
 ProductsRouter.delete("/:pid", (req, res) => {
-  const requestedProducts = {};
+  /* const requestedProducts = {};
   let returnStatus = 200;
 
   const { pid: pid } = req.params;
@@ -226,7 +254,19 @@ ProductsRouter.delete("/:pid", (req, res) => {
       requestedProducts.message = `Product ${pid} wasn't found.`;
     }
   }
-  res.status(returnStatus).json(requestedProducts).end();
+  res.status(returnStatus).json(requestedProducts).end(); */
+
+  try {
+    const { pid } = req.params;
+    ProductManager.deleteProductById(pid);
+
+    const productsList = ProductManager.getProducts();
+    req.io.emit('listChange', productsList);
+
+    res.status(200).json({ message: 'Product deleted' });
+  } catch (error) {
+    res.status(501).json({ error: error.message });
+  }
 });
 
 export default ProductsRouter;

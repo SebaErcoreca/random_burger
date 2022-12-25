@@ -3,10 +3,10 @@ import { writeFileSync, readFileSync, existsSync } from "fs";
 
 export default class CartManager {
   static #lastCartId;
-  static #defaultPersistentFilePath = "./CartManager.json";
+  static #defaultPersistentFilePath = "./src/storage/carts.json";
   static #persistentFileOptions = { encoding: "utf-8" };
 
-  #carts;
+  #carts = [];
   #path = "";
 
   /* 

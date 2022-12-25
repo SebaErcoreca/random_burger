@@ -4,8 +4,8 @@ import Cart from "../Cart.js";
 import CartItem from "../CartItem.js";
 import ProductManager from "../ProductManager.js";
 
-const cartsPath = "public/cart.json";
-const productsPath = "public/products.json";
+const cartsPath = "./src/public/cart.json";
+const productsPath = "./src/public/products.json";
 
 const CartsRouter = Router();
 
@@ -46,7 +46,7 @@ CartsRouter.get("/:cid", (req, res) => {
 });
 
 CartsRouter.post("/", (req, res) => {
-  const returnObject = {};
+  /* const returnObject = {};
   let returnStatus = 201;
 
   const cartManager = new CartManager(cartsPath);
@@ -56,7 +56,13 @@ CartsRouter.post("/", (req, res) => {
   returnObject.status = "success";
   returnObject.newCartId = newCartId;
 
-  res.status(returnStatus).json(returnObject).end();
+  res.status(returnStatus).json(returnObject).end(); */
+  try {
+    CartManager.createCart();
+    res.status(201).json({ message: 'Cart created' })
+  } catch (error) {
+    res.status(501).json({ error: error.message })
+  }
 });
 
 CartsRouter.post("/:cid/product/:pid", (req, res) => {

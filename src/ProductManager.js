@@ -3,7 +3,7 @@ import { writeFileSync, readFileSync, existsSync } from 'fs';
 
 export default class ProductManager {
     static #lastProductId;
-    static #defaultPersistFilePath = './ProductManager.json';
+    static #defaultPersistFilePath = './src/storage/products.json';
     static #persistFileOptions = { encoding: 'utf-8' };
 
     #products = [];
