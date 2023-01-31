@@ -1,23 +1,14 @@
-import { Router } from "express";
-import ProductManager from "../ProductManager.js";
+import express from "express";
+import * as viewsController from '../controllers/views.controller.js'
 
-export const viewsRouter = Router();
+const viewsRouter = express.Router();
 
-viewsRouter.get("/", (req, res) => {
-    try {
-        const productsList = ProductManager.getProducts();
-        res.status(200).render("home", {products: productsList});
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+viewsRouter.get('/chat', viewsController.getChat)
 
-viewsRouter.get("/realtimeproducts", (req, res) => {
-    try {
-        const productsList = ProductManager.getProducts();
-        res.status(200).render('realTimeProducts', {products: productsList})
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+viewsRouter.get("/", viewsController.getHome);
 
-})
+viewsRouter.get('/products', viewsController.getProducts);
+
+viewsRouter.get("/realtimeproducts", viewsController.getRealTimeProducts);
+
+export default viewsRouter;
