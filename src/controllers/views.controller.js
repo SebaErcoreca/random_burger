@@ -1,9 +1,20 @@
 import productsServices from "../services/products.db.services.js";
+import cartsServices from "../services/carts.db.services.js";
 
-export async function getHome(req, res) { // Should be replaced by a real home view
+export async function login(req, res) {
     try {
-        const paginatedData = await productsServices.getProducts({},{lean: true});
-        res.status(200).render('index', paginatedData);
+        if (!req.session.logged) {
+            return res.status(200).render('login');
+        }
+        return res.status(200).redirect('/products');
+    } catch (error) {
+        res.status(500).json({ Error: error.message });
+    }
+}
+
+export async function registerUser(req, res) {
+    try {
+        res.status(200).render('register');
     } catch (error) {
         res.status(500).json({ Error: error.message });
     }
@@ -11,17 +22,28 @@ export async function getHome(req, res) { // Should be replaced by a real home v
 
 export async function getProducts(req, res) {
     try {
-        const {limit, sort, page} = req.query;
+        const { limit, sort, page, category } = req.query;
         const options = {
-            limit: limit? Number(limit) : 10,
-            sort: sort? {price: sort} : {},
-            page: page? Number(page) : 1,
+            limit: limit ? Number(limit) : 10,
+            page: page ? Number(page) : 1,
+            ...(sort && { sort: { price: sort } }),
+            ...(category && { category }),
             lean: true
         }
-        let query = {}
-        if (req.query.category) query.category = req.query.category;
+
+        let query = {};
+        if (category) query = { category: category };
+
         const paginatedData = await productsServices.getProducts(query, options);
-        res.status(200).render('products', paginatedData)
+
+        const user = req.session.user;
+
+        if (paginatedData) {
+            res.status(200).render('products', { ...paginatedData, user })
+        }
+        else {
+            res.status(404).json({ Error: "Products not found" })
+        };
     } catch (error) {
         res.status(500).json({ Error: error.message });
     }
@@ -29,8 +51,34 @@ export async function getProducts(req, res) {
 
 export async function getRealTimeProducts(req, res) {
     try {
-        const paginatedData = await productsServices.getProducts({},{lean: true});
-        res.status(200).render('realTimeProducts', paginatedData)
+        const paginatedData = await productsServices.getProducts({}, { lean: true });
+
+        const user = req.session.user;
+
+        if (paginatedData) {
+            res.status(200).render('realTimeProducts', { ...paginatedData, user })
+        }
+        else {
+            res.status(404).json({ Error: "Products not found" })
+        };
+    } catch (error) {
+        res.status(500).json({ Error: error.message });
+    }
+}
+
+export async function getCart(req, res) {
+    try {
+        const { cartID } = req.params;
+        const cart = await cartsServices.getCart(cartID);
+
+        const user = req.session.user;
+
+        if (cart) {
+            res.status(200).render('cart', { ...cart, user })
+        }
+        else {
+            res.status(404).json({ Error: "Cart not found" })
+        };
     } catch (error) {
         res.status(500).json({ Error: error.message });
     }
@@ -38,9 +86,19 @@ export async function getRealTimeProducts(req, res) {
 
 export async function getChat(req, res) {
     try {
-        res.status(200).render('chat')
+        const user = req.session.user;
+        res.status(200).render('chat', { user })
     } catch (error) {
         res.status(500).json({ Error: error.message });
     }
 }
 
+export async function getUserCenter(req, res) {
+    try {
+        const user = req.session.user;
+
+        res.status(200).render('userCenter', { user })
+    } catch (error) {
+        res.status(500).json({ Error: error.message });
+    }
+}

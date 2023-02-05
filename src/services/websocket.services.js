@@ -6,15 +6,15 @@ class WebSocketService {
     websocketInit(io) {
         this.io = io;
         this.io.on('connection', async (socket) => {
-            console.log(`Nueva conexión desde el id: ${socket.id}`);
+            console.log(`New connection id: ${socket.id}`);
 
             socket.emit('welcome',{
-                welcome: 'Bienvenido al servidor', 
+                welcome: 'Welcome to the server', 
                 messages: await messageManager.getMessages()
             });
         
             socket.on('disconnect', (socket) => {
-                console.log(`Cierre de conexión`);
+                console.log(`Connection ended`);
             })
 
             socket.on('newMessage', async (data) => {
@@ -37,4 +37,3 @@ class WebSocketService {
 const webSocketService = new WebSocketService();
 
 export default webSocketService;
-

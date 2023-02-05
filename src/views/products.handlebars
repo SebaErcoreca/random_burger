@@ -1,27 +1,182 @@
-<h1>Products</h1>
-<div id='listContainer' class='list-group flex-row flex-wrap gap-5 justify-content-center'>
-  {{#each docs}}
-  <div class="card" style="width: 18rem;">
-    <img src="" class="card-img-top" alt="...">
-    <div class="card-body justify-content-center d-flex flex-column">
-      <h5 class="card-title">{{title}}</h5>
-      <p class="card-text">{{description}}</p>
-      <p class="card-text">Price: {{price}}</p>
-      <p class="card-text">id: {{_id}}</p>
-      <p class="card-text">Category: {{category}}</p>
-      <p class="card-text">code :{{code}}</p>
-      <p class="card-text">Stock:{{stock}}</p>
-      <button type="button" class="btn btn-primary">Add to cart</button>
+<section>
+  <h1>Products</h1>
+  <div class="categoryIndex">
+    <h2>Categories</h2>
+    <ul>
+      <li>
+        <a href={{paginationUrl 1 options ""}}>Todos</a>
+      </li>
+      <li>
+        <a href={{paginationUrl 1 options "Doble"}}>Double</a>
+      </li>
+      <li>
+        <a href={{paginationUrl 1 options "Triple"}}>Triple</a>
+      </li>
+      <li>
+        <a href={{paginationUrl 1 options "Cuadruple"}}>Cuadruple</a>
+      </li>
+    </ul>
+  </div>
+  <div id='listContainer' class='list-group flex-row flex-wrap gap-5 justify-content-center'>
+    {{#each docs}}
+    <div class="card" style="width: 18rem;">
+      <img src="https://images.unsplash.com/photo-1584178639036-613ba57e5e39?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" class="card-img-top" alt="...">
+      <div class="card-body justify-content-center d-flex flex-column">
+        <h5 class="card-title">{{title}}</h5>
+        <p class="card-text">{{description}}</p>
+        <p class="card-text">Price: {{price}}</p>
+        <p class="card-text">id: {{_id}}</p>
+        <p class="card-text">Category: {{category}}</p>
+        <p class="card-text">code :{{code}}</p>
+        <p class="card-text">Stock:{{stock}}</p>
+        <button type="button" class="btn btn-primary addToCartBtn" id="{{_id}}">Add to cart</button>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+  <div class='btn-group d-flex gap-3'  role='group' aria-label='Basic example'>
+    {{#if prevPage}}
+        <a href={{paginationUrl prevPage options options.category}}><button type='button' class='btn btn-primary'>Previous</button></a>
+    {{/if}}
+    <button  disabled="true" class='btn btn-primary'>{{page}}</button>
+    {{#if nextPage}}
+        <a href={{paginationUrl nextPage options options.category}}><button type='button'class='btn btn-primary'>Next</button></a>
+    {{/if}}
+  </div>
+</section>
+<section>
+  <h2>POST, PUT, DELETE</h2>
+  <div class="accordion w-50" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Post a product
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <form id="postProductForm">
+
+            <div class="mb-6">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" required="true">
+            </div>
+
+            <div class="mb-6">
+              <label for="description" class="form-label">Description</label>
+              <input type="text" class="form-control" id="description" required="true">
+            </div>
+
+            <div class="mb-6">
+              <label class="form-label" for="price">Price</label>
+              <input type="number" class="form-control" id="price" required="true">
+            </div>
+
+            <div class="mb-6">
+              <label class="form-label" for="stock">Stock</label>
+              <input type="number" class="form-control" id="stock" required="true">
+            </div>
+            <div class="mb-6">
+              <label class="form-label" for="code">Code</label>
+              <input type="text" class="form-control" id="code" required="true">
+              <div class="form-text">Format: "CODE XX", being XX the product number.</div>
+            </div>
+
+            <div class="mb-6">
+              <label class="form-label" for="category">Category</label>
+              <input type="text" class="form-control" id="category" required="true">
+            </div>
+
+            <div class="mb-6 form-check">
+              <label class="form-check-label" for="status">Status</label>
+              <input type="checkbox" class="form-check-input" id="status" required="true">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add product!</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Delete a product
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+        <div class="accordion-body"> 
+          <form id="deleteProductForm">
+
+            <div class="mb-6">
+              <label for="productID" class="form-label">Product ID</label>
+              <input type="text" class="form-control" id="productID" required="true">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Delete product</button>
+          </form> 
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingThree">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Update a product
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <form id="updateProductForm">
+
+            <div class="mb-6">
+              <label for="productIDPut" class="form-label">Product ID</label>
+              <input type="text" class="form-control" id="productIDPut" required="true">
+              <div class="form-text">Select an existing id, shown above.</div>
+            </div>
+
+            <div class="mb-6">
+              <label for="titlePut" class="form-label">Title</label>
+              <input type="text" class="form-control" id="titlePut">
+            </div>
+
+            <div class="mb-6">
+              <label for="descriptionPut" class="form-label">Description</label>
+              <input type="text" class="form-control" id="descriptionPut">
+            </div>
+
+            <div class="mb-6">
+              <label class="form-label" for="pricePut">Price</label>
+              <input type="number" class="form-control" id="pricePut">
+            </div>
+
+            <div class="mb-6">
+              <label class="form-label" for="stockPut">Stock</label>
+              <input type="number" class="form-control" id="stockPut">
+            </div>
+            <div class="mb-6">
+              <label class="form-label" for="codePut">Code</label>
+              <input type="text" class="form-control" id="codePut">
+              <div class="form-text">Format: "CODE XX", being XX the product number.</div>
+            </div>
+
+            <div class="mb-6">
+              <label class="form-label" for="categoryPut">Category</label>
+              <input type="text" class="form-control" id="categoryPut">
+            </div>
+
+            <div class="mb-6 form-check">
+              <label class="form-check-label" for="statusPut">Status</label>
+              <input type="checkbox" class="form-check-input" id="statusPut">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update product</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-  {{/each}}
-</div>
-<div class='btn-group d-flex gap-3'  role='group' aria-label='Basic example'>
-  {{#if prevPage}}
-      <a href={{paginationUrl prevPage options}}><button type='button' class='btn btn-primary'>Previous</button></a>
-  {{/if}}
-  <button  disabled="true" class='btn btn-primary'>{{page}}</button>
-  {{#if nextPage}}
-      <a href={{paginationUrl nextPage options}}><button type='button'class='btn btn-primary'>Next</button></a>
-  {{/if}}
-</div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/js/products.js" type="module"></script>

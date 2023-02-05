@@ -17,15 +17,17 @@ class ProductsServices {
 
     async getProducts(query, options) {
         try {
-            query = {deleted: false, ...query};
+            query = {...{deleted: false}, ...query}
+            
             const paginatedList = await ProductModel.paginate(query, options);
 
             webSocketService.io.emit('reloadList', paginatedList.docs);
-            
+
             const newData = {
                 ...paginatedList,
-                options: {...options}
-            } 
+                options
+            }
+
             return newData;
         } catch (error) {
             throw new Error(error.message)

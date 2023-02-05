@@ -22,6 +22,7 @@ const productSchema = new mongoose.Schema(
     thumbnail: {
         type: String,
         required: true,
+        default: "https://images.unsplash.com/photo-1584178639036-613ba57e5e39?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
     },
     stock: {
         type: Number,

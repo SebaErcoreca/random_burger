@@ -2,15 +2,17 @@ import productsServices from '../services/products.db.services.js';
 
 export async function getProducts(req, res) {
     try {
-        const {limit, sort, page} = req.query;
+        const {limit, sort, page, category} = req.query;
         const options = {
             limit: limit? Number(limit) : 10,
-            sort: sort? {price: sort} : {},
             page: page? Number(page) : 1,
+            ...(sort && { sort: {price: sort} }),
+            ...(category && { category }),
             lean: true
         }
-        let query = {}
-        if (req.query.category) query.category = req.query.category;
+
+        let query= {};
+        if (category) query = {category: category};
 
         const paginatedData = await productsServices.getProducts(query, options);
 
@@ -19,6 +21,11 @@ export async function getProducts(req, res) {
                 success: true,
                 data: paginatedData.docs
             })
+        } else {
+            res.status(404).json({
+                success: false,
+                message: 'Products not found'
+            });
         }
     } catch (error) {
         res.status(500).json({ Error: error.message });
@@ -38,7 +45,7 @@ export async function getProduct(req, res) {
         } else {
             res.status(404).json({
                 success: false,
-                message: 'Product not found. Check if ID is correct.'
+                message: 'Product not found. Check ID.'
             });
         }
     } catch (error) {
@@ -68,7 +75,7 @@ export async function updateProduct(req, res) {
         const updatedProduct = await productsServices.updateProduct(productID, product);
         res.status(200).json({
             success: true,
-            message: `Product (ID = ${productID}) updated successfully.`,
+            message: `Product ${productID} updated successfully.`,
             data: updatedProduct
         });
     } catch (error) {
@@ -82,9 +89,9 @@ export async function deleteProduct(req, res) {
         await productsServices.deleteProduct(productID);
         res.status(200).json({
             success: true,
-            message: `Product (ID = ${productID}) deleted successfully.`,
+            message: `Product ${productID} deleted successfully.`,
         });
     } catch (error) {
         res.status(500).json({ Error: error.message });
     }
-};
+}

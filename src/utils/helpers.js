@@ -1,7 +1,10 @@
-export function paginationUrl(currentPage, options) {
+export function paginationUrl(currentPage, options, categoryValue) {
     let url = `/products?page=${currentPage}`;
-    if (options.sort.price) url += `&sort=${options.sort.price}`;
+
+    if (options.sort) url += `&sort=${options.sort.price}`;
     if (options.limit) url += `&limit=${options.limit}`;
-    if (options.categories) url += `&categories=${options.categories}`;
+    if (categoryValue) url += `&category=${categoryValue}`;
+    else if (options.category) url += `&category=${options.category}`;
+
     return url;
 }

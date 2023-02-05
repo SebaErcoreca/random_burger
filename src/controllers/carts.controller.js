@@ -5,10 +5,10 @@ export async function createCart(req, res) {
         const cartData = req.body;
         const newCart = await cartsServices.createCart(cartData);
         res.status(201).json({
-            succees: true,
-            message: `${
-                newCart.products.length > 0 ? `New cart created with ${newCart.products.length} products.` : `New empty cart successfully created.`
-            } New cart's ID is ${newCart._id}.`,
+            success: true,
+            message: `${newCart.products.length > 0 ?
+                `New cart created with ${newCart.products.length} products.` :
+                `New empty cart successfully created.`} New cart's ID is ${newCart._id}.`,
         });
     } catch (error) {
         res.status(500).json({ Error: error.message });
@@ -32,8 +32,9 @@ export async function getCart(req, res) {
 export async function deleteCart(req, res) {
     try {
         const { cartID } = req.params;
+        /* Returns an empty cart */
         await cartsServices.deleteCart(cartID);
-        res.status(200).json({ 
+        res.status(200).json({
             success: true,
             message: `Cart ${cartID} was emptied`
         });
@@ -48,7 +49,7 @@ export async function addProductToCart(req, res) {
         if (quantity <= 0) {
             res.status(400).json({
                 success: false,
-                message: `Invalid quantity. Must be a positive integer.`
+                message: `Invalid quantity.`
             });
         }
         const cart = await cartsServices.addProductToCart(cartID, productID, Number(quantity));
@@ -82,7 +83,7 @@ export async function deleteProductFromCart(req, res) {
         } else {
             res.status(404).json({
                 success: false,
-                message: `Product ${productID} not found in cart ${cartID}. Or cart ${cartID} not found.`
+                message: `Product ${productID} not found in cart ${cartID} or cart ${cartID} not found.`
             });
         }
     } catch (error) {
@@ -114,7 +115,7 @@ export async function updateCart(req, res) {
 
 export async function updateQuantity(req, res) {
     try {
-        const { cartID, productID} = req.params;
+        const { cartID, productID } = req.params;
         const { quantity } = req.body;
         const updatedCart = await cartsServices.updateQuantity(cartID, productID, Number(quantity));
         if (updatedCart) {
@@ -126,7 +127,7 @@ export async function updateQuantity(req, res) {
         } else {
             res.status(404).json({
                 success: false,
-                message: `Product ${productID} not found in cart ${cartID}. Or cart ${cartID} not found.`
+                message: `Product ${productID} not found in cart ${cartID} or cart ${cartID} not found.`
             });
         }
     } catch (error) {

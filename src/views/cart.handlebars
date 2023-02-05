@@ -1,0 +1,18 @@
+<h1>Cart ID: {{_id}}</h1>
+<div id='listContainer' class='list-group flex-row flex-wrap gap-5 justify-content-center'>
+  {{#each products}}
+  <div class="card" style="width: 18rem;">
+    <img src="https://images.unsplash.com/photo-1584178639036-613ba57e5e39?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" class="card-img-top" alt="...">
+    <div class="card-body justify-content-center d-flex flex-column">
+      <h5 class="card-title">{{product.title}}</h5>
+      <p class="card-text">{{product.description}}</p>
+      <p class="card-text">Price: {{product.price}}</p>
+      <p class="card-text">id: {{product._id}}</p>
+      <p class="card-text">Category: {{product.category}}</p>
+      <p class="card-text">code :{{product.code}}</p>
+      <p class="card-text">Quantity: {{quantity}}</p>
+      <p class="card-text">Stock:{{product.stock}}</p>
+    </div>
+  </div>
+  {{/each}}
+</div>
