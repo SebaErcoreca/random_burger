@@ -79,6 +79,7 @@ function printMessage(message) {
 								<p class="messageUser" id="messageUser">${message.user}</p>
 								<p class="messageText" id="messageText">${message.message}</p>
 								<small class="messageDate" id="messageText">${message.createdAt}</small>
+								</div>
 	`;
 };
 
@@ -99,4 +100,3 @@ function getMessages(data) {
 		}
 	});
 };
-
