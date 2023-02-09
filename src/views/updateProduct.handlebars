@@ -1,0 +1,61 @@
+<h1>Update</h1>
+
+<h2>Product {{title}}</h2>
+
+<div class='accordion-item'>
+    <h2 class='accordion-header' id='headingThree'>
+        <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse'
+            data-bs-target='#collapseThree' aria-expanded='false' aria-controls='collapseThree'>
+            Update
+            {{title}}
+        </button>
+    </h2>
+    <form id='updateProductForm'>
+
+        <div class='mb-6'>
+            <label for='idPut' class='form-label'>Product ID</label>
+            <input type='text' class='form-control' id='idPut' name='idPut' required='true' value='{{productID}}'
+                disabled="true" />
+            <div class='form-text'>Select one of the above.</div>
+
+            <div class='mb-6'>
+                <label for='titlePut' class='form-label'>Title</label>
+                <input type='text' class='form-control' id='titlePut' />
+            </div>
+
+            <div class='mb-6'>
+                <label for='descriptionPut' class='form-label'>Description</label>
+                <input type='text' class='form-control' id='descriptionPut' />
+            </div>
+
+            <div class='mb-6'>
+                <label class='form-label' for='pricePut'>Price</label>
+                <input type='number' class='form-control' id='pricePut' />
+            </div>
+
+            <div class='mb-6'>
+                <label class='form-label' for='stockPut'>Stock</label>
+                <input type='number' class='form-control' id='stockPut' />
+            </div>
+            <div class='mb-6'>
+                <label class='form-label' for='codePut'>Code</label>
+                <input type='text' class='form-control' id='codePut' />
+                <div class="form-text">Format: "CODE XX", being XX the product number.</div>
+            </div>
+
+            <div class='mb-6'>
+                <label class='form-label' for='categoryPut'>Category</label>
+                <input type='text' class='form-control' id='categoryPut' />
+            </div>
+
+            <div class='mb-6 form-check'>
+                <label class='form-check-label' for='statusPut'>Status</label>
+                <input type='checkbox' class='form-check-input' id='statusPut' />
+            </div>
+
+            <button type='submit' class='btn btn-primary'>Update product</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/js/admin.update.js"></script>

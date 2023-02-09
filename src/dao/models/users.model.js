@@ -26,6 +26,12 @@ const userSchema = new mongoose.Schema(
       minLength: 6,
       maxLength: 16,
     },
+    cart: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Carts",
+      required: true,
+      default: null
+    },
     role: {
       type: String,
       default: "user",

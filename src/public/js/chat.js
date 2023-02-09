@@ -7,6 +7,7 @@ const messagesContainer = document.getElementById("messagesContainer");
 const welcomeText = document.getElementById("welcomeText");
 
 let newMessages = [];
+let user = userName.innerText.substring(0, userName.innerText.indexOf(','));
 
 socket.on("welcome", async (data) => {
 	try {
@@ -30,9 +31,8 @@ socket.on("newUser", (newUser) => {
 	});
 });
 
-let user = null;
 
-if (!user) {
+if (!user.inner.Text.length > 0) {
 	Swal.fire({
 		title: "Please set your name",
 		text: "User name:",
@@ -44,7 +44,7 @@ if (!user) {
 	}).then((newUser) => {
 		user = newUser.value;
 		welcomeText.innerText = `Welcome ${user}!`;
-		userName.innerText = 'Write and send a message!';
+		userName.remove();
 		socket.emit("newUser", user);
 		document.addEventListener('keypress', (e) => {
 			if (e.key === "Enter") {
@@ -52,6 +52,12 @@ if (!user) {
 			}
 			});
 	})
+}else {
+	document.addEventListener('keypress', (e) => {
+		if (e.key === "Enter") {
+			sendMessage();
+		}
+	});
 };
 
 submitBtn.addEventListener("click", (e) => {

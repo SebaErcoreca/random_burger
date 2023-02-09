@@ -1,4 +1,4 @@
-import userService from './users.services.js'
+import userService from './users.db.services.js'
 
 class AuthServices {
   async login(email, password) {

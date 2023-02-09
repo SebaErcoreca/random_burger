@@ -7,14 +7,18 @@ viewsRouter.get('/chat', viewsController.getChat)
 
 viewsRouter.get("/", viewsController.login);
 
-viewsRouter.get('/cart/:cartID', viewsController.getCart)
+viewsRouter.get('/cart', viewsController.getCart)
 
 viewsRouter.get('/products', viewsController.getProducts);
 
-viewsRouter.get("/realtimeproducts", viewsController.getRealTimeProducts);
+/* viewsRouter.get("/realtimeproducts", viewsController.getRealTimeProducts); */
 
 viewsRouter.get('/register', viewsController.registerUser);
 
 viewsRouter.get('/usercenter', viewsController.getUserCenter);
+
+viewsRouter.get('/admin', viewsController.getAdminCenter)
+
+viewsRouter.get('/admin/update/', viewsController.getUpdateProduct)
 
 export default viewsRouter;

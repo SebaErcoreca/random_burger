@@ -1,8 +1,16 @@
 <h2 id="welcomeText">Welcome to the chat!</h2>
 
-<div>
-    <p id="userName"></p>
-</div>
+<p id="userName">
+    {{#if user}} 
+        {{user.firstName}}, write and send your message!
+    {{/if}}
+</p>
+
+{{#unless user}} 
+    <div>
+        <p><a href="/register">Create an acount</a> or <a href="/">log in</a>.</p>
+    </div>
+{{/unless}}
 
 <div>
     <input id ="messageInput" type="text">
@@ -15,4 +23,4 @@
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/chat.socket.js"></script>
+<script src="/js/chat.js"></script>
